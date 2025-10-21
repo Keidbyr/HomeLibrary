@@ -25,11 +25,17 @@
             <td>{{ $copy->integrity ? 'Да' : 'Нет' }}</td>
             <td>{{ $copy->in_stock ? 'Да' : 'Нет' }}</td>
             <td>{{ $copy->library_id }}</td>
+            <td>
+                <a href="{{ route('copies.destroy', $copy) }}">Удалить</a>
+                <a href="{{route('copies.edit', $copy->id)}}">Редактировать</a>
+            </td>
             <td><a href="{{ route('copies.show', $copy->id) }}">Просмотр</a></td>
         </tr>
     @endforeach
     </tbody>
 </table>
+{{ $items->links() }}
+<a href="{{ route('copies.create') }}">Добавить копию</a>
 </body>
 </html>
 
