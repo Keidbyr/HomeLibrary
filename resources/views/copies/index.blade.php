@@ -34,7 +34,15 @@
     @endforeach
     </tbody>
 </table>
-{{ $items->links() }}
+<form method="get" action="{{url('copies')}}">
+    <select name="perpage">
+        <option value="2" @if($copies->perPage()== 2) selected @endif>2</option>
+        <option value="3" @if($copies->perPage()== 3) selected @endif>3</option>
+        <option value="4" @if($copies->perPage()== 4) selected @endif>4</option>
+    </select>
+    <input type="submit" value="Изменить">
+</form>
+{{ $copies->links() }}
 <a href="{{ route('copies.create') }}">Добавить копию</a>
 </body>
 </html>

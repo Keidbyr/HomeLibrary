@@ -6,13 +6,13 @@ use App\Models\Copy;
 use App\Models\Book;
 use App\Models\Library;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Gate;
 class CopyController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $copies = Copy::with('book', 'library')->get();
-        return view('copies.index', compact('copies'));
+        $perpage = $request->perpage ?? 2;
+        return view('copies.index', ['copies' => Copy::paginate($perpage) -> withQueryString()]);
     }
 
     public function show($id)
@@ -44,6 +44,13 @@ class CopyController extends Controller
 
     public function edit(string $id)
     {
+        $copy = Copy::find($id);
+        if (!$copy) {
+            abort(404);
+        }
+        if(!Gate::allows('change-copy', $copy)) {
+            return redirect('/error')->with('message','У вас нет разрешения на Редактирование копии номер ' . $id);
+        }
         return view('copies.edit', ['copy'=>Copy::all()->where('id',$id)->first(), Library::all(), 'books' => Book::all(), 'libraries' => Library::all()]);
     }
     public function update(Request $request, string $id){
@@ -69,7 +76,14 @@ class CopyController extends Controller
         return view('copies.destroy', compact('copy'));
     }
     public function destroy(string $id){
-        Copy::all()->where('id',$id)->first()->delete();
+        $copy = Copy::find($id);
+        if (!$copy) {
+            abort(404);
+        }
+        if(!Gate::allows('destroy-copy', $copy)) {
+            return redirect('/error')->with('message','У вас нет разрешения на удаление копии номер ' . $id);
+        }
+        Copy::destroy($id);
         return redirect('/copies');
     }
 }

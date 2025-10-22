@@ -13,9 +13,9 @@ class Copy extends Model
         return $this->belongsTo(Book::class);
     }
 
-    public function library()
+    public function library(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Library::class);
+        return $this->belongsTo(Library::class,'library_id', 'id');
     }
 
     public function loans()
