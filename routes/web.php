@@ -9,10 +9,10 @@ use App\Http\Controllers\LoanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.app');
 });
 Route::get('/login', [LoginController::class, 'login'])->name('login');;
-Route::get('/logout', [LoginController::class, 'logout']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::post('/auth', [LoginController::class, 'authenticate']);
 Route::get(  '/error', function() {
     return view( 'error', [ 'message' => session( 'message')]);

@@ -1,27 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>609-32</title>
-</head>
-<body>
-<h1>Библиотека #{{ $library->id }}</h1>
-<table border="1" cellpadding="8" cellspacing="0">
-    <tr><th>Поле</th><th>Значение</th></tr>
-    <tr><td>ID</td><td>{{ $library->id }}</td></tr>
-    <tr><td>Владелец</td><td>
-            @if($library->owner)
-                <a href="{{ route('users.show', $library->owner->id) }}">
-                    {{ $library->owner->name }} {{ $library->owner->surname }}
-                </a>
-            @else
-                (Пользователь удалён)
-            @endif
-        </td></tr>
-    <tr><td>Город</td><td>{{ $library->city }}</td></tr>
-    <tr><td>Дата создания</td><td>{{ $library->date_creation }}</td></tr>
-</table>
+@extends('layouts.app')
 
-<a href="{{ route('libraries.index') }}"> Назад к списку библиотек</a>
-</body>
-</html>
+@section('title', 'Библиотека')
+
+@section('content')
+    <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+            <h1 class="h4 mb-0">Библиотека #{{ $library->id }}</h1>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <tr><th>Поле</th><th>Значение</th></tr>
+                <tr><td>ID</td><td>{{ $library->id }}</td></tr>
+                <tr>
+                    <td>Владелец</td>
+                    <td>
+                        @if($library->owner)
+                            <a href="{{ route('users.show', $library->owner->id) }}" class="link-primary">
+                                {{ $library->owner->name }} {{ $library->owner->surname }}
+                            </a>
+                        @else
+                            <span class="text-muted">(Пользователь удалён)</span>
+                        @endif
+                    </td>
+                </tr>
+                <tr><td>Город</td><td>{{ $library->city }}</td></tr>
+                <tr><td>Дата создания</td><td>{{ $library->date_creation }}</td></tr>
+            </table>
+
+            <div class="mt-3">
+                <a href="{{ route('libraries.index') }}" class="btn btn-outline-secondary">← Назад к списку библиотек</a>
+            </div>
+        </div>
+    </div>
+@endsection

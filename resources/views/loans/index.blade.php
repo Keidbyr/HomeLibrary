@@ -1,36 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>609-32</title>
-</head>
-<body>
-<h1>Список выдач книг</h1>
-<table border="1" cellpadding="8" cellspacing="0">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Копия ID</th>
-        <th>Читатель ID</th>
-        <th>Дата выдачи</th>
-        <th>Дата возврата</th>
-        <th>Статус</th>
-        <th>Действия</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach($loans as $loan)
-        <tr>
-            <td>{{ $loan->id }}</td>
-            <td>{{ $loan->copy_id }}</td>
-            <td>{{ $loan->reader_id }}</td>
-            <td>{{ $loan->loan_date }}</td>
-            <td>{{ $loan->return_date }}</td>
-            <td>{{ $loan->status }}</td>
-            <td><a href="{{ route('loans.show', $loan->id) }}">Просмотр</a></td>
-        </tr>
-    @endforeach
-    </tbody>
-</table>
-</body>
-</html>
+@extends('layouts.app')
+
+@section('title', 'Выдача книги')
+
+@section('content')
+    <div class="card shadow-sm">
+        <div class="card-header bg-warning text-dark">
+            <h1 class="h4 mb-0">Выдача #{{ $loan->id }}</h1>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <tr>
+                    <th>Поле</th>
+                    <th>Значение</th>
+                </tr>
+                <tr>
+                    <td>ID</td>
+                    <td>{{ $loan->id }}</td>
+                </tr>
+                <tr>
+                    <td>Копия</td>
+                    <td>
+                        @if($loan->copy)
+                            <a href="{{ route('copies.show', $loan->copy->id) }}" class="link-primary">Копия #{{ $loan->copy->id }}</a>
+                        @else
+                            <span class="text-muted">(Копия удалена)</span>
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td>Читатель</td>
+                    <td>
+                        @if($loan->user)
+                            <a href="{{ route('users.show', $loan->user->id) }}" class="link-primary">
+                                {{ $loan->user->name }} {{ $loan->user->surname }}
+                            </a>
+                        @else
+                            <span class="text-muted">(Читатель удалён)</span>
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td>Дата выдачи (Unix)</td>
+                    <td>{{ $loan->loan_date }}</td>
+                </tr>
+                <tr>
+                    <td>Дата возврата (Unix)</td>
+                    <td>{{ $loan->return_date }}</td>
+                </tr>
+                <tr>
+                    <td>Статус</td>
+                    <td>
+                        @if($loan->status === 'active')
+                            <span class="badge bg-success">Активна</span>
+                        @elseif($loan->status === 'returned')
+                            <span class="badge bg-secondary">Возвращена</span>
+                        @elseif($loan->status === 'overdue')
+                            <span class="badge bg-danger">Просрочена</span>
+                        @elseif($loan->status === 'lost')
+                            <span class="badge bg-dark">Утеряна</span>
+                        @endif
+                    </td>
+                </tr>
+            </table>
+
+            <div class="mt-3">
+                <a href="{{ route('loans.index') }}" class="btn btn-outline-secondary">← Назад к списку выдач</a>
+            </div>
+        </div>
+    </div>
+@endsection

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Library extends Model
 {
-    protected $primaryKey = 'Library_id';
+    protected $primaryKey = 'id';
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_reader_id');

@@ -69,7 +69,7 @@ class CopyController extends Controller
         $copy->integrity = $validated['integrity'];
         $copy->in_stock = $validated['in_stock'];
         $copy->save();
-        return redirect('/copies');
+        return redirect()->route('copies.index')->with('success', 'Копия успешно изменена.');
     }
     public function showDestroyForm(Copy $copy)
     {
@@ -84,6 +84,6 @@ class CopyController extends Controller
             return redirect('/error')->with('message','У вас нет разрешения на удаление копии номер ' . $id);
         }
         Copy::destroy($id);
-        return redirect('/copies');
+        return redirect()->route('copies.index')->with('success', 'Копия успешно удалена.');
     }
 }

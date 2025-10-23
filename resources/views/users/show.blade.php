@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>609-32</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Копии книг')
+
+@section('content')
 <h1>Читатель: {{ $user->name }} {{ $user->surname }}</h1>
 <table border="1" cellpadding="8" cellspacing="0">
     <tr><th>Поле</th><th>Значение</th></tr>
@@ -61,5 +59,4 @@
 @endif
 
 <a href="{{ route('users.index') }}"> Назад к списку читателей</a>
-</body>
-</html>
+@endsection

@@ -30,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
             return $library && $library->owner_reader_id == $user->id;
         });
         Gate::define('change-copy', function (User $user, Copy $copy) {
+            if ($user->Is_admin) return true;
             $library = $copy->library;
             return $library && $library->owner_reader_id == $user->id;
         });

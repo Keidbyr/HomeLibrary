@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>609-32</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('title', 'Копии книг')
+
+@section('content')
 <h1>Список читателей</h1>
 <table border="1" cellpadding="8" cellspacing="0">
     <thead>
@@ -32,5 +30,4 @@
     @endforeach
     </tbody>
 </table>
-</body>
-</html>
+@endsection
