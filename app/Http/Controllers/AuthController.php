@@ -14,28 +14,19 @@ class AuthController extends Controller
             'email'    => 'required|string',
             'password' => 'required|string',
         ]);
-
-        // Ищем пользователя по email
         $user = User::where('email', $fields['email'])->first();
-
-        // Проверяем существование пользователя
         if (!$user) {
             return response(['message' => 'Wrong email'], status: 401);
         }
-
-        // Проверяем пароль
         if (!Hash::check($fields['password'], $user->password)) {
             return response(['message' => 'Wrong password'], status: 401);
         }
-
-        // Создаём токен
         $token = $user->createToken('myapptoken')->plainTextToken;
 
         $response = [
             'user'  => $user,
             'token' => $token,
         ];
-
         return response($response, status: 201);
     }
     public function logout(Request $request)
