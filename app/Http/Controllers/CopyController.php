@@ -84,6 +84,6 @@ class CopyController extends Controller
             return redirect('/error')->with('message','У вас нет разрешения на удаление копии номер ' . $id);
         }
         Copy::destroy($id);
-        return redirect()->route('copies.index')->with('success', 'Копия успешно удалена.');
+        return redirect()->route('copies.index')->with('error', 'Копия успешно удалена.');
     }
 }
