@@ -12,7 +12,13 @@ class CopyControllerApi extends Controller
 {
     public function index(Request $request)
     {
-        return response()->json(Copy::all());
+        return response(Copy::limit($request->perpage ?? 5)
+            ->offset(($request->perpage ?? 5) * ($request->page ?? 0))
+            ->get());
+    }
+    public function total()
+    {
+        return response(Copy::all()->count());
     }
 
     public function show($id)
